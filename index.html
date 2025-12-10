@@ -124,27 +124,108 @@
             transform: translateY(-2px);
             color: var(--color-text);
         }
+        
+        /* ============== 數據區 (Stats) 新增/修改樣式 ============== */
 
-        /* 數據區 */
         #stats {
-            background-color: var(--color-white);
+            background-color: var(--color-background);
             padding: var(--spacing-large) 0;
         }
 
-        .stats-grid {
+        /* 建議/減碳 頂部樣式 (模擬圖中頂部資訊) */
+        .suggestion-bar {
+            background-color: var(--color-white); 
+            padding: 15px 20px;
+            border-radius: 8px 8px 0 0;
+            margin-bottom: 0; 
+            border: 1px solid #ddd;
+            border-bottom: none;
+            position: relative;
+        }
+
+        .suggestion-text {
+            position: absolute;
+            top: 15px;
+            left: 20px;
+            font-size: 0.85em;
+            color: var(--color-light-text);
+        }
+
+        .reduction-text {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 0.85em;
+            color: var(--color-light-text);
+        }
+
+        .suggestion-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-top: 25px; 
+            font-size: 1.2em;
+        }
+
+        .suggestion-details strong {
+            color: var(--color-text);
+            font-weight: 700;
+        }
+
+        .suggestion-details span {
+            color: var(--color-primary);
+            font-weight: 700;
+            font-size: 1.5em; /* 放大減碳數字 */
+        }
+
+
+        /* 圖表區塊樣式 (佔位符) */
+        .chart-container {
+            background-color: var(--color-white);
+            padding: var(--spacing-small);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: var(--spacing-medium);
+            border: 1px solid #ddd;
+            border-top: none;
+        }
+
+        .chart-placeholder {
+            height: 250px; 
+            background-color: #F0FAF0; /* 淺綠色背景，模擬圖表視覺 */
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: var(--color-light-text);
+        }
+
+        .chart-placeholder strong {
+            color: var(--color-primary);
+        }
+
+
+        /* 數據卡片網格 (2上1下佈局) */
+        .stats-cards-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: var(--spacing-small);
             text-align: center;
-            margin-top: var(--spacing-medium);
+            margin-bottom: var(--spacing-small);
         }
-
+        
         .stat-card {
-            background-color: var(--color-background);
+            background-color: var(--color-white);
             padding: var(--spacing-medium);
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.05);
             transition: transform 0.3s;
+            height: 100%; 
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
         .stat-card:hover {
@@ -164,15 +245,15 @@
             color: var(--color-light-text);
         }
 
-        .stat-suggestion {
-            padding: 15px;
-            background-color: var(--color-secondary);
-            color: var(--color-text);
-            border-radius: 5px;
-            font-weight: 600;
-            margin-bottom: var(--spacing-small);
+        /* 寬版卡片樣式 */
+        .stat-wide-card {
+            grid-column: 1 / -1; 
+            background-color: #E6F5E4; /* 稍微不同的背景色 */
         }
         
+        /* ============== 數據區 (Stats) 結束 ============== */
+
+
         /* 通用標題 */
         .section-header {
             text-align: center;
@@ -248,8 +329,13 @@
                 font-size: 2em;
             }
 
-            .stat-card .value {
-                font-size: 1.8em;
+            .suggestion-details {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .suggestion-details span {
+                font-size: 1.2em;
+                margin-top: 5px;
             }
         }
     </style>
@@ -280,11 +366,26 @@
 
     <section id="stats">
         <div class="container">
-            <div class="stat-suggestion">
-                **今日節能建議：** 關閉未使用會議室空調 2 小時
-                | **本月減碳：** 1.8 kg CO₂e
+            
+            <div class="suggestion-bar">
+                <span class="suggestion-text">今日節能建議</span>
+                <span class="reduction-text">本月減碳</span>
+                <div class="suggestion-details">
+                    <strong>關閉未使用會議室空調 2 小時</strong>
+                    <span>1.8 kg CO₂e</span>
+                </div>
             </div>
-            <div class="stats-grid">
+
+            <div class="chart-container">
+                <div class="chart-placeholder">
+                    <p style="margin: 0;"><strong>[能源消耗趨勢圖表]</strong></p>
+                    <p style="font-size:0.9em; color:var(--color-light-text); margin: 5px 0 0;">
+                        <em>*此處需透過 JavaScript 載入實際圖表數據 (如 Chart.js)，現為視覺化佔位。</em>
+                    </p>
+                </div>
+            </div>
+
+            <div class="stats-cards-grid">
                 <div class="stat-card">
                     <div class="value">5,230+</div>
                     <div class="label">綠色閱讀參與人次</div>
@@ -293,15 +394,13 @@
                     <div class="value">+34%</div>
                     <div class="label">電子書借閱成長</div>
                 </div>
-                <div class="stat-card">
-                    <div class="value">−12%</div>
-                    <div class="label">能源消耗下降</div>
-                </div>
-                <div class="stat-card" style="background-color: #e5f5e3;">
-                    <div class="value">零碳行動</div>
-                    <div class="label" style="color: var(--color-primary); font-weight: 600;">校園永續入口</div>
-                </div>
             </div>
+            
+            <div class="stat-card stat-wide-card">
+                <div class="value">−12%</div>
+                <div class="label">能源消耗下降</div>
+            </div>
+
         </div>
     </section>
 
